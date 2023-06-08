@@ -73,36 +73,36 @@ const Login = ({ navigation }) => {
                 if (!isValidPass && Password != '') {
                     setLoading(true)
                     await Axios.post('http://banshividya.aanksoft.com/ProcessAPIWithK.aspx', {
-                        userid:Email,
-      passwd: Password,
-      reqtype:'reqlogin',
-}).then((response) => {
-    console.log('response ',response.data.response);
-    setLoading(false);
-    if(response.data.response == 'OK'){
-        setLoading(false);
-        //const data = response.data.data.email;
-        console.log('data ',response.data);
-        AsyncStorage.setItem('user_id', response.data.id.toString());
-        AsyncStorage.setItem('email_id', Email);
-        AsyncStorage.setItem('password', Password);
-        //setUserData('user_id',response.data.data.id.toString());
-        AsyncStorage.setItem('UserData',JSON.stringify(response.data));
-        //setUserData('loggedInStatus','loggedIn');
-        //this.props.screenProps.isLoggedIn(); 
-        navigation.replace("bottomTabsNav");
-    }
-    else {
-        setError('Please check your email id or password');
-      //this.setState({errortext:'Please check your email id or password'});
-        //alert('Invalid Sign in');
-        setLoading(false);
-        }
-  }, (error) => {
-    console.log(error);
-    setLoading(false)
+                        userid: Email,
+                        passwd: Password,
+                        reqtype: 'reqlogin',
+                    }).then((response) => {
+                        console.log('response ', response.data.response);
+                        setLoading(false);
+                        if (response.data.response == 'OK') {
+                            setLoading(false);
+                            //const data = response.data.data.email;
+                            console.log('data ', response.data);
+                            AsyncStorage.setItem('user_id', response.data.id.toString());
+                            AsyncStorage.setItem('email_id', Email);
+                            AsyncStorage.setItem('password', Password);
+                            //setUserData('user_id',response.data.data.id.toString());
+                            AsyncStorage.setItem('UserData', JSON.stringify(response.data));
+                            //setUserData('loggedInStatus','loggedIn');
+                            //this.props.screenProps.isLoggedIn(); 
+                            navigation.replace("bottomTabsNav");
+                        }
+                        else {
+                            setError('Please check your email id or password');
+                            //this.setState({errortext:'Please check your email id or password'});
+                            //alert('Invalid Sign in');
+                            setLoading(false);
+                        }
+                    }, (error) => {
+                        console.log(error);
+                        setLoading(false)
 
-  });
+                    });
                 } else {
                     isValidPass(true)
                 }
@@ -174,7 +174,7 @@ const Login = ({ navigation }) => {
 
         <ImageBackground resizeMode={'cover'} style={styles.backgroundImage} source={Images.login_backgroundNew}>
             <KeyboardAvoidingView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flex: 1 }}>
-            <Loader loading={Loading} />
+                <Loader loading={Loading} />
                 <View style={{ marginTop: '30%', marginLeft: '20%' }}>
                     <Text style={styles.loginText}>Login</Text>
                     <Text style={styles.subHeaderText}>Please sign in to continue.</Text>
@@ -191,7 +191,7 @@ const Login = ({ navigation }) => {
 
                             <Image source={Images.userName} style={{ height: 30, width: 30 }} />
                             <TextInput
-                                style={{ marginLeft: 5, flex: 1,fontSize:16 }}
+                                style={{ marginLeft: 5, flex: 1, fontSize: 16 }}
                                 placeholder='Enter User Name'
                                 placeholderTextColor="#6E878F"
                                 autoCapitalize="none"
@@ -224,7 +224,7 @@ const Login = ({ navigation }) => {
 
                             <Image source={Images.password} style={{ height: 30, width: 30 }} />
                             <TextInput
-                                style={{ marginLeft: 5, flex: 1,fontSize:16 }}
+                                style={{ marginLeft: 5, flex: 1, fontSize: 16 }}
                                 placeholder='Enter Password'
                                 placeholderTextColor="#6E878F"
                                 returnKeyType='go'
@@ -238,9 +238,9 @@ const Login = ({ navigation }) => {
                         <Text style={styles.labelContainer}>Password is required</Text>
                     ) : (null)}
 
-{Error != '' ? (
-            <Text style={styles.labelContainer}> {Error} </Text>
-          ) : null}
+                    {Error != '' ? (
+                        <Text style={styles.labelContainer}> {Error} </Text>
+                    ) : null}
                     <TouchableOpacity
                         style={styles.buttonStyle}
                         activeOpacity={0.6}

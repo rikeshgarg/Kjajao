@@ -150,13 +150,13 @@ const Home = (props) => {
                                                 {/* <Image source={require('../../assets/common/img_sample.jpg')} style={styles.imageView} /> */}
                                                 {/* <Image source={{uri: item.img}} style={styles.imageView} /> */}
                                                 <FastImage
-        style={styles.imageView}
-        source={{
-            uri: item.img,
-           priority: FastImage.priority.high,
-        }}
-        resizeMode={FastImage.resizeMode.contain}
-    />
+                                                    style={styles.imageView}
+                                                    source={{
+                                                        uri: item.img,
+                                                        priority: FastImage.priority.high,
+                                                    }}
+                                                    resizeMode={FastImage.resizeMode.contain}
+                                                />
                                             </View>
                                             <View style={{ flexShrink: 1, flexDirection: 'column', marginTop: 1 }}>
                                                 <View style={{ flexDirection: 'row', height: 30, textAlignVertical: 'center', backgroundColor: '#e22729' }}>
