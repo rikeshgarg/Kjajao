@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- <item name="android:editTextBackground">@drawable/rn_edit_text_material</item> -->
+        <item name="android:windowDisablePreview">true</item>
+
+        <item name="android:windowBackground">@drawable/backgroundsplash</item>
+       <!-- <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:backgroundDimEnabled">false</item>
+    <item name="android:windowDisablePreview">true</item> -->
+    <!-- <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:backgroundDimEnabled">false</item>
+    <item name="android:windowDisablePreview">true</item> -->
+        <!-- <item name="android:windowBackground">@drawable/splash</item> -->
+        
+
+    </style>
+</resources>
