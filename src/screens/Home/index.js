@@ -185,12 +185,12 @@ const Home = (props) => {
                                             <View style={{ flexShrink: 1, flexDirection: 'column', marginTop: 1 }}>
                                                 <View style={{ flexDirection: 'row', height: 30, textAlignVertical: 'center', backgroundColor: '#e22729' }}>
                                                     {/* <Text style={{ marginLeft: 5, marginRight: 2, color: '#ffffff', fontSize: 15, textAlignVertical: 'center', fontWeight: '600' }}>Name: </Text> */}
-                                                    <Text style={{ marginLeft: 7, width: '100%', color: '#ffffff', fontSize: 15, alignSelf: 'center', alignContent: 'center', textAlignVertical: 'center' }}>{item.patientname}</Text>
+                                                    <Text style={{ alignItems:'center',width: '100%', color: '#ffffff', fontSize: 15, alignSelf: 'center', alignContent: 'center', textAlign: 'center' }}>{item.patientname}</Text>
                                                 </View>
-                                                <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
+                                                {/* <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Born On: </Text>
                                                     <Text style={{ color: '#000000', fontSize: 15 }}>{item.birthdate}</Text>
-                                                </View>
+                                                </View> */}
 
                                                 <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Age: </Text>
@@ -198,23 +198,24 @@ const Home = (props) => {
                                                 </View>
 
                                                 <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
-                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>illness: </Text>
+                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Illness: </Text>
                                                     <Text style={{ color: '#000000', fontSize: 15 }}>Cancer-{item.lllness}</Text>
                                                 </View>
                                                 <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
-                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Treating Doctor: </Text>
+                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Treating Doc: </Text>
                                                     <Text style={{ color: '#000000', fontSize: 15 }}>{item.doctorname}</Text>
-                                                </View>
-                                                <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
-                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Occupation of Parent: </Text>
-                                                    <Text style={{ color: '#000000', fontSize: 15 }}>{item.occupationfather}</Text>
                                                 </View>
                                                 <View style={{ flex: 1, flexWrap: 'wrap', flexShrink: 1, marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Hospital: </Text>
                                                     <Text style={{ color: '#000000', fontSize: 15 }}>{item.hospitalname}</Text>
                                                 </View>
+                                                <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
+                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Parent Occupation: </Text>
+                                                    <Text style={{ color: '#000000', fontSize: 15 }}>{item.occupationfather}</Text>
+                                                </View>
+                                               
                                                 <View style={{ flex: 1, flexWrap: 'wrap', flexShrink: 1, marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
-                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Hometown: </Text>
+                                                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Belongs to: </Text>
                                                     {(item.location) != "" ?
                                                         (
                                                             <Text style={{ color: '#000000', fontSize: 15 }}>{item.location},{item.statename}</Text>
