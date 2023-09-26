@@ -17,6 +17,7 @@ import Gallery from 'react-native-image-gallery';
 
 // create a component
 const Home = (props) => {
+    const [totalrecord,settotalrecord]=useState("");
     const [items, setItems] = useState([]);
     const [Arrayitems, setArrayItems] = useState([]);
     const [Loading, setLoading] = useState(false);
@@ -82,6 +83,7 @@ const Home = (props) => {
                 console.log('Result ' + JSON.stringify(response.data.lcno));
                 setArrayItems(response.data.lcno)
                 console.log(Arrayitems.length);
+                settotalrecord(response.data.TotalRecord)
                 setLoading(false);
 
             } else {
@@ -155,8 +157,8 @@ const Home = (props) => {
             />
 
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>THE LIVES YOU</Text>
-                <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}> HAVE CONTRIBUTED </Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>THANKYOU FOR SUPPORTING</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}> {totalrecord} CHILDREN (23-24) </Text>
 
             </View>
 
