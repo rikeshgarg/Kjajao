@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component, useEffect, useState } from 'react';
-import { ImageBackground, StatusBar, TouchableWithoutFeedback, Image, Alert, StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, FlatList, TextInput, RefreshControl } from 'react-native';
+import {SafeAreaView, ImageBackground, StatusBar, TouchableWithoutFeedback, Image, Alert, StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, FlatList, TextInput, RefreshControl } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 import FastImage from 'react-native-fast-image'
@@ -14,13 +14,18 @@ import Loader from '../../util/loader';
 
 import moment from 'moment';
 import Gallery from 'react-native-image-gallery';
+import { Dropdown } from 'react-native-element-dropdown';
 
 // create a component
 const Home = (props) => {
+    const [email,setemail]=useState("");
+    const [password,setpassword]=useState("");
     const [totalrecord,settotalrecord]=useState("");
     const [items, setItems] = useState([]);
     const [Arrayitems, setArrayItems] = useState([]);
+    const [year, setYear] = useState([]);
     const [Loading, setLoading] = useState(false);
+    const [value, setValue] = useState("");
     const images = [require('../../assets/common/img_sample.jpg'), require('../../assets/common/image1.jpg'), require('../../assets/common/image1.jpg'), require('../../assets/common/image1.jpg')]
     useEffect(() => {
         var Currentdate = moment().format('YYYY-MM-DD');
@@ -33,7 +38,9 @@ const Home = (props) => {
     readData = async () => {
         try {
             const email = await AsyncStorage.getItem('email_id');
+            //setemail(email1);
             const password = await AsyncStorage.getItem('password');
+            //setpassword(password1);
             const userdata = await AsyncStorage.getItem('UserData');
             let userDetails = JSON.parse(userdata);
             let titlename = userDetails.donorname;
@@ -41,11 +48,14 @@ const Home = (props) => {
                 title: 'Welcome ' + titlename,
             })
             console.log('async data', email + ",,,,,," + password)
-            getdata(email, password);
+            //getdata(email, password);
+            getYearData(email, password);
         } catch (e) {
 
         }
     }
+
+    
 
     const convertdate = (currentdate) => {
         // let date = new Date(currentdate);
@@ -69,13 +79,46 @@ const Home = (props) => {
         console.log('NewDate', years + "," + months)
     }
 
-    const getdata = async (email, password) => {
-        console.log('getdata', email + ",,,,,," + password)
+    const getYearData = async (email, password) => {
+        console.log('getYearData', email + ",,,,,," + password)
+        setemail(email);
+        setpassword(password);
         setLoading(true);
         await Axios.post('http://banshividya.aanksoft.com/ProcessAPIWithK.aspx', {
             userid: email,
             passwd: password,
-            reqtype: 'getlcno',
+            reqtype: 'yearselection',
+        }).then((response) => {
+            console.log('response ', response.data.response);
+
+            if (response.data.response == 'OK') {
+                console.log('Result Year' + JSON.stringify(response.data.year));
+                setYear(response.data.year);
+                //alert(JSON.stringify(year[0].Year));
+                var first = response.data.year[0];
+                setValue(JSON.stringify(first.Year));
+                getdata(email, password,value);
+                //console.log('Result Year dddd' + JSON.stringify(response.data.year));
+
+            } else {
+                setLoading(false);
+            }
+
+        }, (error) => {
+            console.log(error);
+            setLoading(false);
+
+        });
+    }
+
+    const getdata = async (email, password,year) => {
+        console.log('getdata', email + ",,,,,," + password + ",,,,,," +year.toString())
+        setLoading(true);
+        await Axios.post('http://banshividya.aanksoft.com/ProcessAPIWithK.aspx', {
+            userid: email,
+            passwd: password,
+            reqtype: 'getlcnonew',
+            startyear:year
         }).then((response) => {
             console.log('response ', response.data.response);
 
@@ -109,7 +152,7 @@ const Home = (props) => {
         );
     };
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Loader loading={Loading} />
             {/* <Text  style={{fontSize:25,color:'black'}}>Home Screen</Text> */}
             {/* <Text onPress={() => props.navigation.navigate('Details')}>Click to Details</Text> */}
@@ -158,15 +201,60 @@ const Home = (props) => {
 
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>THANKYOU FOR SUPPORTING</Text>
-                <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}> {totalrecord} CHILDREN (23-24) </Text>
-
+                <View style={{flexDirection:'row' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#e22729',  alignContent: 'center', alignItems: 'center', alignSelf: 'center'}}> {totalrecord} CHILDREN </Text>
+            
+            
+            <Dropdown
+          style={[styles.dropdown, { borderColor: 'red',borderWidth:2}]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+            mode='modal'
+          iconStyle={styles.iconStyle}
+          nestedScrollEnabled={true}
+    
+          data={year}
+        
+          search
+          maxHeight={200}
+          labelField="Year"
+          valueField="Year"
+          placeholder={ 'Select Year'}
+          searchPlaceholder="Search..."
+          value={value}
+          textColor="#000000"
+          autoScroll={false}
+          onChange={item => {
+            setValue(item.Year);
+            getdata(email,password,item.Year)
+           
+        
+          }}
+        //   renderLeftIcon={() => (
+        //     <AntDesign
+        //       style={styles.icon}
+        //       color={'blue'}
+        //       name="Safety"
+        //       size={20}
+        //     />
+        //   )}
+        />
+           </View>
             </View>
+                
+                
+
+          
+
+            
 
             {
                 Arrayitems.length > 0 ?
                     (
                         <FlatList style={{ marginBottom: 5 }}
                             data={Arrayitems}
+                            nestedScrollEnabled={true}
                             renderItem={({ item }) =>
 
                                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
@@ -238,7 +326,8 @@ const Home = (props) => {
                             ItemSeparatorComponent={renderSeparator()}
                             keyExtractor={(item, index) => index.toString()}
                         />
-                    ) : (<View >
+                    ) : (<View style={{marginTop:50,flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{ flex:1,fontSize: 22, marginLeft: 5, marginRight: 5, color: 'black', justifyContent:'center', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>No data found for this year</Text>
                     </View>)
             }
 
@@ -269,16 +358,17 @@ const Home = (props) => {
                 </View>
             </View> */}
 
-        </View>
+        </SafeAreaView>
     );
 };
 
 // define your styles
 const styles = StyleSheet.create({
     container: {
-
         flex: 1,
         backgroundColor: 'white',
+    
+
 
     },
     imageView: {
@@ -299,8 +389,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: "gray",
         backgroundColor: 'gray',
-
-
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -313,7 +401,47 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
     },
-
+    dropdown: {
+        width:'35%',
+        height:35,
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        color: 'black',
+      },
+      icon: {
+        marginRight: 5,
+      },
+      label: {
+        color: 'black',
+        position: 'absolute',
+        backgroundColor: 'white',
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 14,
+      },
+      placeholderStyle: {
+        fontSize: 16,
+        color: 'black',
+      },
+      selectedTextStyle: {
+        fontSize: 16,
+        color: 'black',
+      },
+      iconStyle: {
+        width: 20,
+        height: 20,
+      },
+      inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+      },
+      itemContainerStyle: {
+        width:500
+      },
 
 });
 
