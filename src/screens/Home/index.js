@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component, useEffect, useState } from 'react';
-import {SafeAreaView, ImageBackground, StatusBar, TouchableWithoutFeedback, Image, Alert, StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, FlatList, TextInput, RefreshControl } from 'react-native';
+import { SafeAreaView, ImageBackground, StatusBar, TouchableWithoutFeedback, Image, Alert, StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, FlatList, TextInput, RefreshControl } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 import FastImage from 'react-native-fast-image'
@@ -18,14 +18,14 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 // create a component
 const Home = (props) => {
-    const [email,setemail]=useState("");
-    const [password,setpassword]=useState("");
-    const [totalrecord,settotalrecord]=useState("");
+    const [email, setemail] = useState("");
+    const [password, setpassword] = useState("");
+    const [totalrecord, settotalrecord] = useState("");
     const [items, setItems] = useState([]);
     const [Arrayitems, setArrayItems] = useState([]);
     const [year, setYear] = useState([]);
     const [Loading, setLoading] = useState(false);
-    const [value, setValue] = useState("");
+    const [yearvalue, setValue] = useState("");
     const images = [require('../../assets/common/img_sample.jpg'), require('../../assets/common/image1.jpg'), require('../../assets/common/image1.jpg'), require('../../assets/common/image1.jpg')]
     useEffect(() => {
         var Currentdate = moment().format('YYYY-MM-DD');
@@ -55,15 +55,15 @@ const Home = (props) => {
         }
     }
 
-    
+
 
     const convertdate = (currentdate) => {
         // let date = new Date(currentdate);
         let dateObject = moment(currentdate, 'DD-MMM-YYYY').format('YYYY-MM-DD');
         let Currentdate = moment().format('YYYY-MM-DD');
 
-        const startDate = moment(dateObject); 
-        const endDate = moment(Currentdate); 
+        const startDate = moment(dateObject);
+        const endDate = moment(Currentdate);
         const duration = moment.duration(endDate.diff(startDate));
         const years = duration.years();
         const months = duration.months();
@@ -95,9 +95,11 @@ const Home = (props) => {
                 console.log('Result Year' + JSON.stringify(response.data.year));
                 setYear(response.data.year);
                 //alert(JSON.stringify(year[0].Year));
-                var first = response.data.year[0];
-                setValue(JSON.stringify(first.Year));
-                getdata(email, password,value);
+                var first = response.data.year[0].Year;
+                console.log('Result Year dddd' + first);
+                setValue(response.data.year[0].Year.toString());
+                //alert(first.Year);
+                getdata(email, password, response.data.year[0].SNo.toString());
                 //console.log('Result Year dddd' + JSON.stringify(response.data.year));
 
             } else {
@@ -111,14 +113,14 @@ const Home = (props) => {
         });
     }
 
-    const getdata = async (email, password,year) => {
-        console.log('getdata', email + ",,,,,," + password + ",,,,,," +year.toString())
+    const getdata = async (email, password, year) => {
+        console.log('getdata1', email + ",,,,,," + password + ",,,,,," + year)
         setLoading(true);
         await Axios.post('http://banshividya.aanksoft.com/ProcessAPIWithK.aspx', {
             userid: email,
             passwd: password,
             reqtype: 'getlcnonew',
-            startyear:year
+            startyear: year
         }).then((response) => {
             console.log('response ', response.data.response);
 
@@ -201,53 +203,54 @@ const Home = (props) => {
 
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 5, marginRight: 5, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>THANKYOU FOR SUPPORTING</Text>
-                <View style={{flexDirection:'row' }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#e22729',  alignContent: 'center', alignItems: 'center', alignSelf: 'center'}}> {totalrecord} CHILDREN </Text>
-            
-            
-            <Dropdown
-          style={[styles.dropdown, { borderColor: 'red',borderWidth:2}]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-            mode='modal'
-          iconStyle={styles.iconStyle}
-          nestedScrollEnabled={true}
-    
-          data={year}
-        
-          search
-          maxHeight={200}
-          labelField="Year"
-          valueField="Year"
-          placeholder={ 'Select Year'}
-          searchPlaceholder="Search..."
-          value={value}
-          textColor="#000000"
-          autoScroll={false}
-          onChange={item => {
-            setValue(item.Year);
-            getdata(email,password,item.Year)
-           
-        
-          }}
-        //   renderLeftIcon={() => (
-        //     <AntDesign
-        //       style={styles.icon}
-        //       color={'blue'}
-        //       name="Safety"
-        //       size={20}
-        //     />
-        //   )}
-        />
-           </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#000000', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}> {totalrecord}</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#e22729', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}> CHILDREN </Text>
+
+
+                    <Dropdown
+                        style={[styles.dropdown, { borderColor: 'red', borderWidth: 2 }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        mode='modal'
+                        iconStyle={styles.iconStyle}
+                        nestedScrollEnabled={true}
+
+                        data={year}
+
+                        search
+                        maxHeight={200}
+                        labelField="Year"
+                        valueField="Year"
+                        placeholder={'Select Year'}
+                        searchPlaceholder="Search..."
+                        value={yearvalue}
+                        textColor="#000000"
+                        autoScroll={false}
+                        onChange={item => {
+                            setValue(item.Year);
+                            getdata(email, password, item.SNo)
+
+
+                        }}
+                    //   renderLeftIcon={() => (
+                    //     <AntDesign
+                    //       style={styles.icon}
+                    //       color={'blue'}
+                    //       name="Safety"
+                    //       size={20}
+                    //     />
+                    //   )}
+                    />
+                </View>
             </View>
-                
-                
 
-          
 
-            
+
+
+
+
 
             {
                 Arrayitems.length > 0 ?
@@ -275,7 +278,7 @@ const Home = (props) => {
                                             <View style={{ flexShrink: 1, flexDirection: 'column', marginTop: 1 }}>
                                                 <View style={{ flexDirection: 'row', height: 30, textAlignVertical: 'center', backgroundColor: '#e22729' }}>
                                                     {/* <Text style={{ marginLeft: 5, marginRight: 2, color: '#ffffff', fontSize: 15, textAlignVertical: 'center', fontWeight: '600' }}>Name: </Text> */}
-                                                    <Text style={{ alignItems:'center',width: '100%', color: '#ffffff', fontSize: 15, alignSelf: 'center', alignContent: 'center', textAlign: 'center' }}>{item.patientname}</Text>
+                                                    <Text style={{ alignItems: 'center', width: '100%', color: '#ffffff', fontSize: 15, alignSelf: 'center', alignContent: 'center', textAlign: 'center' }}>{item.patientname}</Text>
                                                 </View>
                                                 {/* <View style={{ marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Born On: </Text>
@@ -303,7 +306,7 @@ const Home = (props) => {
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Parent Occupation: </Text>
                                                     <Text style={{ color: '#000000', fontSize: 15 }}>{item.occupationfather}</Text>
                                                 </View>
-                                               
+
                                                 <View style={{ flex: 1, flexWrap: 'wrap', flexShrink: 1, marginLeft: 5, marginRight: 2, flexDirection: 'row', alignItems: 'flex-start', marginTop: 2 }}>
                                                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: '600' }}>Belongs to: </Text>
                                                     {(item.location) != "" ?
@@ -326,8 +329,8 @@ const Home = (props) => {
                             ItemSeparatorComponent={renderSeparator()}
                             keyExtractor={(item, index) => index.toString()}
                         />
-                    ) : (<View style={{marginTop:50,flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-                        <Text style={{ flex:1,fontSize: 22, marginLeft: 5, marginRight: 5, color: 'black', justifyContent:'center', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>No data found for this year</Text>
+                    ) : (<View style={{ marginTop: 50, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ flex: 1, fontSize: 22, marginLeft: 5, marginRight: 5, color: 'black', justifyContent: 'center', alignContent: 'center', alignItems: 'center', alignSelf: 'center' }}>No data found for this year</Text>
                     </View>)
             }
 
@@ -367,7 +370,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-    
+
 
 
     },
@@ -402,18 +405,18 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     dropdown: {
-        width:'35%',
-        height:35,
+        width: '35%',
+        height: 35,
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
         color: 'black',
-      },
-      icon: {
+    },
+    icon: {
         marginRight: 5,
-      },
-      label: {
+    },
+    label: {
         color: 'black',
         position: 'absolute',
         backgroundColor: 'white',
@@ -422,26 +425,26 @@ const styles = StyleSheet.create({
         zIndex: 999,
         paddingHorizontal: 8,
         fontSize: 14,
-      },
-      placeholderStyle: {
+    },
+    placeholderStyle: {
         fontSize: 16,
         color: 'black',
-      },
-      selectedTextStyle: {
+    },
+    selectedTextStyle: {
         fontSize: 16,
         color: 'black',
-      },
-      iconStyle: {
+    },
+    iconStyle: {
         width: 20,
         height: 20,
-      },
-      inputSearchStyle: {
+    },
+    inputSearchStyle: {
         height: 40,
         fontSize: 16,
-      },
-      itemContainerStyle: {
-        width:500
-      },
+    },
+    itemContainerStyle: {
+        width: 500
+    },
 
 });
 
