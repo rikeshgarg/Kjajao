@@ -1,4 +1,4 @@
-package com.sampleproject;
+package com.leukemiacrusaders;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

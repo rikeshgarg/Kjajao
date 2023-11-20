@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // create a component
 const Register = () => {
     return (
-        <ImageBackground style={{ flex:1 }} source={Images.login_background} imageStyle={{ resizeMode: 'cover' }}>
+        <ImageBackground style={{ flex:1 }} source={Images.login_backgroundNew} imageStyle={{ resizeMode: 'cover' }}>
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flex: 1 }}>
                 <View style={{ marginTop: '30%', marginLeft: '20%' }}>
                     <Text style={styles.loginText}>Login</Text>
